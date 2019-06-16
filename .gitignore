@@ -106,3 +106,4 @@ venv.bak/
 *.swp
 faces
 parsed_data
+*.npy

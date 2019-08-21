@@ -22,35 +22,20 @@ HEIGHT = 160
 def create_model():
   model = Sequential()
 
-  model.add(Conv2D(32, (3, 3), activation='relu', padding='same', input_shape=(WIDTH, HEIGHT, 1)))
-  model.add(MaxPooling2D((2, 2), padding='same'))
-  model.add(Conv2D(32, (3, 3), activation='relu', padding='same'))
-  model.add(MaxPooling2D((2, 2), padding='same'))
-
-  model.add(Conv2D(16, (3, 3), activation='relu', padding='same'))
-  model.add(MaxPooling2D((2, 2), padding='same'))
-  model.add(Conv2D(16, (3, 3), activation='relu', padding='same'))
-  model.add(MaxPooling2D((2, 2), padding='same'))
-  #model.add(Conv2D(16, (3, 3), activation='relu', padding='same'))
-  #model.add(MaxPooling2D((2, 2), padding='same'))
-
-  ################################################## 
-
-  #model.add(Conv2D(16, (3, 3), activation='relu', padding='same'))
-  #model.add(UpSampling2D((2, 2)))
-  model.add(Conv2D(16, (3, 3), activation='relu', padding='same'))
-  model.add(UpSampling2D((2, 2)))
-  model.add(Conv2D(16, (3, 3), activation='relu', padding='same'))
-  model.add(UpSampling2D((2, 2)))
-
-  model.add(Conv2D(32, (3, 3), activation='relu', padding='same'))
-  model.add(UpSampling2D((2, 2)))
-  model.add(Conv2D(32, (3, 3), activation='relu', padding='same'))
-  model.add(UpSampling2D((2, 2)))
-
-  model.add(Conv2D(1, (3, 3), activation='sigmoid', padding='same'))
-
-
+  model.add(Conv2D(48, (5,5), activation='relu', padding='same', input_shape=(WIDTH, HEIGHT, 1)))
+  model.add(MaxPooling2D((2,2), padding='same'))
+  model.add(Conv2D(96, (5,5), activation='relu', padding='same'))
+  model.add(MaxPooling2D((2,2), padding='same'))
+  model.add(Conv2D(192, (5,5), activation='relu', padding='same'))
+  model.add(MaxPooling2D((2,2), padding='same'))
+  model.add(Conv2D(192, (5,5), activation='relu', padding='same'))
+  model.add(UpSampling2D((2,2)))
+  model.add(Conv2D(192, (5,5), activation='relu', padding='same'))
+  model.add(UpSampling2D((2,2)))
+  model.add(Conv2D(96, (5,5), activation='relu', padding='same'))
+  model.add(UpSampling2D((2,2)))
+  model.add(Conv2D(48, (5,5), activation='relu', padding='same'))
+  model.add(Conv2D(1, (1,1), activation='sigmoid', padding='same'))
 
 
   opt=Adam(lr=0.001, decay=0.00001)
@@ -71,8 +56,9 @@ if __name__ == '__main__':
   Y = np.divide(Y, 255.0)
 
   EPOCHS = 50
+  
+  for i in range(EPOCHS):
+    model.fit(X, Y, epochs=1, batch_size=32)
 
-  model.fit(X, Y, epochs=EPOCHS, batch_size=256)
-
-  model.save("net-{}E.model".format(EPOCHS))
+    model.save("net-{}E.model".format(EPOCHS))
 

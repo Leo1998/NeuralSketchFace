@@ -5,7 +5,7 @@ import numpy as np
 
 import keras
 from keras.datasets import mnist
-from keras.models import Sequential
+from keras.models import Sequential, load_model
 from keras.layers import Input, Dense, Dropout, Flatten
 from keras.layers import Conv2D, MaxPooling2D, UpSampling2D
 from keras.optimizers import Adam
@@ -44,9 +44,14 @@ def create_model():
   model.summary()
   return model
 
-
+RETRAIN = True
+MODEL_NAME = 'net-50E.model'
 if __name__ == '__main__':
-  model = create_model()
+  if RETRAIN:
+    print("Model for retraining loaded!")
+    model = load_model(MODEL_NAME)
+  else:
+    model = create_model()
  
   print("Loading Data...")
   X = np.load("X.npy")
@@ -55,10 +60,10 @@ if __name__ == '__main__':
   X = np.divide(X, 255.0)
   Y = np.divide(Y, 255.0)
 
-  EPOCHS = 50
+  EPOCHS = 20
   
   for i in range(EPOCHS):
-    model.fit(X, Y, epochs=1, batch_size=32)
+    model.fit(X, Y, epochs=1, batch_size=64)
 
-    model.save("net-{}E.model".format(EPOCHS))
+    model.save(MODEL_NAME)
 

@@ -70,7 +70,7 @@ if __name__ == '__main__':
   X = np.divide(X, 255.0)
   Y = np.divide(Y, 255.0)
 
-  EPOCHS = 100
+  EPOCHS = 50
 
   model.fit(X, Y, epochs=EPOCHS, batch_size=256)
 
